@@ -930,9 +930,8 @@
             if (agent) {
                 localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem('maDaiLy', maDaiLy);
-                localStorage.setItem('tenDaiLy', agent['TEN DAI LY']);
-                localStorage.setItem('chucDanh', agent['CHUC DANH']);
-                console.log('thanhdx - ' + new Date().toISOString() + ' - Login successful for agent:', agent['TEN DAI LY']);
+                localStorage.setItem('fullName', agent['FULLNAME']);
+                console.log('thanhdx - ' + new Date().toISOString() + ' - Login successful for agent:', agent['FULLNAME']);
                 showMainContent();
             } else {
                 console.log('thanhdx - ' + new Date().toISOString() + ' - Login failed for:', maDaiLy, ngayGiaNhap);
@@ -948,20 +947,17 @@
             document.getElementById('mainContent').classList.add('logged-in');
             
             // Display agent info in header
-            const tenDaiLy = localStorage.getItem('tenDaiLy');
-            const chucDanh = localStorage.getItem('chucDanh');
-            const maDaiLy = localStorage.getItem('maDaiLy');
+            const fullName = localStorage.getItem('fullName');
             
-            if (tenDaiLy && chucDanh && maDaiLy) {
-                document.getElementById('agentInfo').textContent = `${maDaiLy} - ${tenDaiLy} - ${chucDanh}`;
+            if (fullName) {
+                document.getElementById('agentInfo').textContent = fullName;
             }
         }
 
         function logout() {
             localStorage.removeItem('isLoggedIn');
             localStorage.removeItem('maDaiLy');
-            localStorage.removeItem('tenDaiLy');
-            localStorage.removeItem('chucDanh');
+            localStorage.removeItem('fullName');
             document.getElementById('loginContainer').style.display = 'flex';
             document.getElementById('mainContent').classList.remove('logged-in');
             document.getElementById('loginForm').reset();
