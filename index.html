@@ -3,10 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CÔNG CỤ XANH</title>
+    <title>CÔNG CỤ XANH - Công cụ xây dựng kịch bản bán hàng Manulife</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Công cụ xây dựng kịch bản bán hàng chuyên nghiệp cho đại lý Manulife. Hỗ trợ tìm hiểu sản phẩm và xây dựng kịch bản bán hàng hiệu quả.">
+    <meta name="keywords" content="công cụ bán hàng, kịch bản bán hàng, Manulife, đại lý bảo hiểm, công cụ xanh, Microsoft Excel, bán hàng chuyên nghiệp">
+    <meta name="author" content="Vùng Hằng Lâm - Manulife">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="language" content="vi">
+    <meta name="revisit-after" content="7 days">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="CÔNG CỤ XANH - Công cụ xây dựng kịch bản bán hàng">
+    <meta property="og:description" content="Công cụ xây dựng kịch bản bán hàng chuyên nghiệp cho đại lý Manulife">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="logo.webp">
+    <meta property="og:site_name" content="CÔNG CỤ XANH">
+    <meta property="og:locale" content="vi_VN">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CÔNG CỤ XANH - Công cụ xây dựng kịch bản bán hàng">
+    <meta name="twitter:description" content="Công cụ xây dựng kịch bản bán hàng chuyên nghiệp cho đại lý Manulife">
+    <meta name="twitter:image" content="logo.webp">
+    
+    <!-- Additional SEO Tags -->
+    <meta name="theme-color" content="#059669">
+    <meta name="msapplication-TileColor" content="#059669">
+    <meta name="application-name" content="CÔNG CỤ XANH">
+    <meta name="apple-mobile-web-app-title" content="CÔNG CỤ XANH">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="logo.ico">
     <link rel="icon" type="image/webp" href="logo.webp">
+    <link rel="apple-touch-icon" href="logo.webp">
+    <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;CÔNG CỤ XANH&quot;,&quot;short_name&quot;:&quot;CÔNG CỤ XANH&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;logo.webp&quot;,&quot;sizes&quot;:&quot;any&quot;,&quot;type&quot;:&quot;image/webp&quot;}]}">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "CÔNG CỤ XANH",
+        "description": "Công cụ xây dựng kịch bản bán hàng chuyên nghiệp cho đại lý Manulife",
+        "url": "",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Windows",
+        "softwareRequirements": "Microsoft Excel 365",
+        "author": {
+            "@type": "Organization",
+            "name": "Vùng Hằng Lâm - Manulife"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "VND"
+        },
+        "inLanguage": "vi",
+        "isAccessibleForFree": true,
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "screenshot": "logo.webp"
+    }
+    </script>
+    
     <style>
         /* ===== CSS VARIABLES ===== */
         :root{
@@ -380,9 +445,17 @@
         .portal-title {
             color: #e5e7eb;
             font-size: 50px;
-            margin: 0;
+            margin: 0 0 16px 0;
             font-weight: 700;
             text-align: center;
+        }
+
+        .portal-subtitle {
+            color: #94a3b8;
+            font-size: 18px;
+            margin: 0 0 32px 0;
+            text-align: center;
+            line-height: 1.6;
         }
 
         .main-panel {
@@ -445,7 +518,7 @@
             margin: 20px 0;
         }
 
-        .password-section h3 {
+        .password-section h2 {
             color: #cbd5e1;
             font-size: 20px;
             margin-bottom: 16px;
@@ -499,7 +572,7 @@
             margin-top: 20px;
         }
 
-        .notes h3 {
+        .notes h2 {
             color: #fbbf24;
             font-size: 20px;
             margin-bottom: 16px;
@@ -731,7 +804,7 @@
         <header id="pageHeader" class="app-header">
             <div class="header-grid">
                 <div class="brand-row">
-                    <img src="logo.webp" alt="logo" class="logo-d" />
+                    <img src="logo.webp" alt="Logo Manulife - Công cụ xanh" class="logo-d" />
                     <div class="title-wrap">
                         <div class="title-top">CỔNG THÔNG TIN VÙNG HẰNG LÂM</div>
                         <div class="title-main">CÔNG CỤ HỖ TRỢ KINH DOANH</div>
@@ -744,7 +817,10 @@
 
         <!-- Content -->
         <div class="content-container">
-            <h1 class="portal-title">CÔNG CỤ XÂY DỰNG KỊCH BẢN BÁN HÀNG</h1>
+            <header>
+                <h1 class="portal-title">CÔNG CỤ XÂY DỰNG KỊCH BẢN BÁN HÀNG</h1>
+                <p class="portal-subtitle">Công cụ chuyên nghiệp hỗ trợ đại lý Manulife xây dựng kịch bản bán hàng hiệu quả</p>
+            </header>
             
             <div class="main-panel">
                 <div class="content-layout">
@@ -757,7 +833,7 @@
                         </div>
 
                         <div class="password-section">
-                            <h3>Mật khẩu mở file</h3>
+                            <h2>Mật khẩu mở file</h2>
                             <div class="password-input">
                                 <input type="text" class="password-field" value="manulifexanhtuonglai" readonly id="passwordField">
                                 <button class="btn-copy" onclick="copyPassword()">📋 Copy</button>
@@ -771,7 +847,7 @@
                     <!-- Cột phải: Lưu ý -->
                     <div class="right-content">
                         <div class="notes">
-                            <h3>Lưu ý quan trọng</h3>
+                            <h2>Lưu ý quan trọng</h2>
                             <ul>
                                 <li>Công cụ nhằm mục đích tìm hiểu sản phẩm và xây dựng kịch bản bán hàng, không dùng để tư vấn khách hàng.</li>
                                 <li>Laptop cài Hệ điều hành Windows</li>
@@ -787,7 +863,7 @@
         <footer id="pageFooter">
             <div class="footer-left">
                 <div>Bản quyền trang web thuộc về</div>
-                <img src="logo_text.webp" alt="Logo" />
+                <img src="logo_text.webp" alt="Logo Manulife Text" />
             </div>
             <div class="footer-right">
                 <a id="supportFooter" href="http://zalo.me/0376763390" target="_blank" rel="noopener">Hỗ trợ</a>
