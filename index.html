@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CÔNG CỤ XANH</title>
+    <link rel="icon" type="image/x-icon" href="logo.ico">
+    <link rel="icon" type="image/webp" href="logo.webp">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* ===== CSS VARIABLES ===== */
+        :root{
+          --sidebar-width: 360px;
+          --header-h: 64px;
+          --footer-h: 66px;
+          --footer-h-mobile: 50px;
+          --brand:#059669; 
+          --accent:#00a758;
+          
+          /* Tùy biến responsive cho tất cả thiết bị */
+          --mobile-breakpoint: 1023px;
+          --tablet-breakpoint: 768px;
+          --small-mobile: 480px;
+          --large-desktop: 1440px;
+          
+          /* Tùy biến spacing */
+          --safe-area-top: env(safe-area-inset-top, 0px);
+          --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+          --safe-area-left: env(safe-area-inset-left, 0px);
+          --safe-area-right: env(safe-area-inset-right, 0px);
+          
+          /* Tùy biến z-index */
+          --z-header: 1000;
+          --z-banner: 999;
+          --z-toc: 996;
+          --z-content: 1;
+          --z-footer: 950;
+          --z-support: 940;
+          --z-loading: 10000;
+        }
+
+        /* ===== RESET & BASE ===== */
+        html,body{min-height:100%;margin:0;background:#f3f4f6;overflow-x:hidden}
+        *{box-sizing:border-box;min-width:0}
+        .hide{display:none !important;}
+
+        /* ===== MOBILE RESTRICTION ===== */
+        .mobile-restriction {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-loading);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .mobile-restriction.show {
+            display: flex;
+        }
+
+        .mobile-restriction-content {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-restriction h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .mobile-restriction p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .device-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        /* ===== LOGIN FORM ===== */
+        .login-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #059669 0%, #00a758 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: var(--z-loading);
+        }
+
+        .login-form {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #059669, #00a758, #10b981);
+        }
+
+        .login-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 30px;
+            background: url('logo.webp') no-repeat center;
+            background-size: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-title {
+            color: #1f2937;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #059669, #00a758);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 10px;
+            color: #374151;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            background: #ffffff;
+            color: #1f2937;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .password-field {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--brand), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(5, 150, 105, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            display: none;
+            padding-top: var(--header-h);
+            min-height: 100vh;
+        }
+
+        .main-content.logged-in {
+            display: block;
+        }
+
+        /* ===== HEADER (FIXED) ===== */
+        .app-header{
+            position:fixed; top:0; left:0; right:0; z-index:var(--z-header);
+            background:#e8fff3; 
+            padding-top:var(--safe-area-top);
+        }
+
+        .header-grid{
+            display:grid; grid-template-columns: 1fr auto;
+            align-items:center; gap:12px; padding:10px 12px;
+            min-width:0; /* Cho phép grid co dãn */
+        }
+        .brand-row{ 
+            display:flex; 
+            align-items:center; 
+            gap:10px; 
+            min-width:0; 
+            flex:1; /* Cho phép co dãn */
+            overflow:hidden; /* Ẩn nội dung tràn */
+        }
+        .logo-d{ 
+            height:70px; 
+            width:auto; 
+            display:block; 
+            flex:0 0 auto; 
+            max-width:70px; /* Giới hạn kích thước logo */
+        }
+
+        .title-wrap{ 
+            display:flex; 
+            flex-direction:column; 
+            gap:2px; 
+            min-width:0; 
+            flex:1; /* Cho phép co dãn */
+            overflow:hidden; /* Ẩn nội dung tràn */
+        }
+        .title-top,.title-main{
+            font-family:'Manulife JH Sans','ManulifeJHSans',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+            color:var(--brand); 
+            font-weight:800; 
+            line-height:1.2; 
+            white-space:nowrap; 
+            overflow:hidden; 
+            text-overflow:ellipsis;
+        }
+        .title-top{ font-size:clamp(10px, 1vw + 6px, 18px); }
+        .title-main{ font-size:clamp(14px, 1.2vw + 8px, 24px); }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* ===== FOOTER ===== */
+        #pageFooter{ 
+            position:fixed; left:0; right:0; bottom:0; 
+            min-height:var(--footer-h); 
+            display:flex; flex-direction:row; align-items:center; justify-content:space-between; 
+            background:#f4f6f8; color:#0b3a2a; border-top:1px solid #e3e7eb; z-index:var(--z-footer); 
+            padding:6px 20px 8px; font-weight:800; 
+        }
+        
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+        }
+        
+        .footer-right {
+            display: flex;
+            align-items: center;
+        }
+        
+        #supportFooter {
+            background: #00a758;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        #supportFooter:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        
+        #pageFooter img{ height:22px; width:auto; display:block; }
+        #contentWrap::after{ content:""; display:block; height: calc(0.75 * var(--footer-h) + 20px); }
+        
+        /* Mobile: sử dụng chiều cao footer nhỏ hơn */
+        @media (max-width: 1023px) {
+            #contentWrap::after{ height: calc(0.75 * var(--footer-h-mobile) + 15px); }
+        }
+
+        /* ===== MAIN CONTENT LAYOUT ===== */
+        .main-content {
+            background: #0b1220;
+            color: #e5e7eb;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .content-container {
+            width: 95%;
+            min-height: calc(100vh - var(--header-h) - var(--footer-h));
+            margin: 0 auto;
+            padding: 24px;
+            padding-top: calc(var(--header-h) + 60px);
+            padding-bottom: calc(var(--footer-h) + 24px);
+            display: grid;
+            gap: 16px;
+        }
+
+        .portal-title {
+            color: #e5e7eb;
+            font-size: 50px;
+            margin: 0;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .main-panel {
+            background: #0f172a;
+            border: 1px solid #1f2a44;
+            border-radius: 14px;
+            padding: 24px;
+            display: grid;
+            gap: 20px;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .left-content {
+            display: grid;
+            gap: 20px;
+        }
+
+        .right-content {
+            display: grid;
+            gap: 20px;
+        }
+
+        .button-group {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 32px;
+            margin: 10px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            min-width: 250px;
+            background: var(--brand);
+            color: white;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
+        }
+
+        .password-section {
+            background: #0f172a;
+            border: 1px solid #1f2a44;
+            border-radius: 14px;
+            padding: 24px;
+            margin: 20px 0;
+        }
+
+        .password-section h3 {
+            color: #cbd5e1;
+            font-size: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .password-input {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .password-field {
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 18px;
+            width: 300px;
+            text-align: center;
+            font-weight: 600;
+            color: #2d3748;
+            background: #ffffff;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .btn-copy {
+            background: #10b981;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-copy:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .notes {
+            background: #0f172a;
+            border: 1px solid #1f2a44;
+            border-radius: 14px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .notes h3 {
+            color: #fbbf24;
+            font-size: 20px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .notes ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .notes li {
+            padding: 12px 0;
+            color: #cbd5e1;
+            font-size: 16px;
+            position: relative;
+            padding-left: 30px;
+            line-height: 1.6;
+        }
+
+        .notes li:before {
+            content: "⚠️";
+            position: absolute;
+            left: 0;
+            top: 12px;
+            font-size: 18px;
+        }
+
+        .success-message {
+            background: #065f46;
+            color: #a7f3d0;
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin-top: 12px;
+            display: none;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 1080px) {
+            .portal-title {
+                font-size: 32px;
+            }
+            
+            .content-container {
+                padding: 16px;
+            }
+            
+            .main-panel {
+                padding: 16px;
+            }
+            
+            .btn {
+                min-width: 200px;
+                padding: 14px 24px;
+                font-size: 16px;
+            }
+            
+            .password-field {
+                width: 250px;
+                font-size: 16px;
+            }
+        }
+
+        /* Tablet responsive */
+        @media (max-width: 768px) {
+            .content-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .portal-title {
+                font-size: 28px;
+            }
+            
+            .content-container {
+                padding: 12px;
+            }
+            
+            .main-panel {
+                padding: 12px;
+            }
+            
+            .btn {
+                min-width: 180px;
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+            
+            .password-field {
+                width: 200px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 20px 10px;
+            }
+
+            .portal-title {
+                font-size: 2rem;
+            }
+
+            .password-field {
+                width: 250px;
+            }
+
+            .btn {
+                min-width: 150px;
+                padding: 12px 20px;
+            }
+
+            .login-form {
+                padding: 30px 20px;
+            }
+
+            .mobile-restriction h1 {
+                font-size: 2rem;
+            }
+
+            .mobile-restriction p {
+                font-size: 1rem;
+            }
+
+            .mobile-restriction-content {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .mobile-restriction.show {
+                display: flex !important;
+            }
+            
+            .login-container {
+                display: none !important;
+            }
+            
+            .main-content {
+                display: none !important;
+            }
+        }
+
+        /* ===== MOBILE RESPONSIVE ===== */
+        @media (max-width: 1023px) {
+            .header-grid{ grid-template-columns:1fr; }
+            .brand-row{ justify-content:flex-start; }
+            body.logged-in .brand-row{ justify-content:center; align-items:center; margin-top:10px; }
+            .logo-d{ height:44px; max-width: 44px; }
+            .title-top{ font-size: clamp(10px, 1vw + 6px, 14px); }
+            .title-main{ font-size: clamp(14px, 1.2vw + 8px, 18px); }
+            
+            /* Footer trên mobile */
+            #pageFooter {
+                flex-direction: column;
+                gap: 4px;
+                padding: 4px 12px 6px;
+                font-size: 8px;
+                font-weight: 600;
+                min-height: var(--footer-h-mobile);
+            }
+            
+            .footer-left {
+                align-items: center;
+                text-align: center;
+                gap: 3px;
+            }
+            
+            .footer-right {
+                justify-content: center;
+            }
+            
+            #pageFooter img {
+                height: 2.1px;
+                width: auto;
+            }
+            
+            #supportFooter {
+                font-size: 8px;
+                padding: 4px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-grid{ padding: 8px 8px; }
+            .logo-d{ height: 40px; max-width: 40px; }
+            .title-top{ font-size: clamp(10px, 1vw + 6px, 14px); }
+            .title-main{ font-size: clamp(14px, 1.2vw + 8px, 18px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Restriction -->
+    <div class="mobile-restriction" id="mobileRestriction">
+        <div class="mobile-restriction-content">
+            <div class="device-icon">📱</div>
+            <h1>KHÔNG HỖ TRỢ<br>THIẾT BỊ DI ĐỘNG</h1>
+            <p>Vui lòng sử dụng máy tính để tải công cụ.<br>Công cụ được phát triển trên<br>Microsoft Excel 365.</p>
+        </div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-form">
+            <div class="login-logo"></div>
+            <h2 class="login-title">ĐĂNG NHẬP</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">Mã số đại lý:</label>
+                    <input type="text" id="username" class="form-input" placeholder="Nhập mã số đại lý" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">Ngày gia nhập:</label>
+                    <input type="password" id="password" class="form-input password-field" placeholder="Nhập ngày gia nhập (dd/mm/yyyy)" required>
+                </div>
+                <button type="submit" class="login-btn">Đăng nhập</button>
+                <div class="error-message" id="errorMessage">
+                    Mã số đại lý hoặc ngày gia nhập không đúng!
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Header -->
+        <header id="pageHeader" class="app-header">
+            <div class="header-grid">
+                <div class="brand-row">
+                    <img src="logo.webp" alt="logo" class="logo-d" />
+                    <div class="title-wrap">
+                        <div class="title-top">CỔNG THÔNG TIN VÙNG HẰNG LÂM</div>
+                        <div class="title-main">CÔNG CỤ HỖ TRỢ KINH DOANH</div>
+                        <div class="agent-info" id="agentInfo" style="font-size: 12px; color: #666; margin-top: 2px;"></div>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">Đăng xuất</button>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <div class="content-container">
+            <h1 class="portal-title">CÔNG CỤ XÂY DỰNG KỊCH BẢN BÁN HÀNG</h1>
+            
+            <div class="main-panel">
+                <div class="content-layout">
+                    <!-- Cột trái: Nội dung chính -->
+                    <div class="left-content">
+                        <div class="button-group">
+                            <a href="llustration tool for agent V5.0.xlsm" download class="btn">
+                                📥 Tải xuống công cụ
+                            </a>
+                        </div>
+
+                        <div class="password-section">
+                            <h3>Mật khẩu mở file</h3>
+                            <div class="password-input">
+                                <input type="text" class="password-field" value="manulifexanhtuonglai" readonly id="passwordField">
+                                <button class="btn-copy" onclick="copyPassword()">📋 Copy</button>
+                            </div>
+                            <div class="success-message" id="successMessage">
+                                ✅ Đã copy mật khẩu vào clipboard!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cột phải: Lưu ý -->
+                    <div class="right-content">
+                        <div class="notes">
+                            <h3>Lưu ý quan trọng</h3>
+                            <ul>
+                                <li>Công cụ nhằm mục đích tìm hiểu sản phẩm và xây dựng kịch bản bán hàng, không dùng để tư vấn khách hàng.</li>
+                                <li>Laptop cài Hệ điều hành Windows</li>
+                                <li>Chỉ hỗ trợ Excel của Microsoft 365 bản quyền</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer id="pageFooter">
+            <div class="footer-left">
+                <div>Bản quyền trang web thuộc về</div>
+                <img src="logo_text.webp" alt="Logo" />
+            </div>
+            <div class="footer-right">
+                <a id="supportFooter" href="http://zalo.me/0376763390" target="_blank" rel="noopener">Hỗ trợ</a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Check if device is mobile/tablet
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                   window.innerWidth <= 1024;
+        }
+
+        // Show mobile restriction if on mobile device
+        if (isMobileDevice()) {
+            document.getElementById('mobileRestriction').classList.add('show');
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'none';
+        }
+
+        // Load agent data from data.json
+        let agentData = [];
+        
+        // Load data from JSON file
+        fetch('simple-data.json')
+            .then(response => response.json())
+            .then(data => {
+                agentData = data;
+                console.log('thanhdx - ' + new Date().toISOString() + ' - Loaded agent data:', agentData.length, 'agents');
+            })
+            .catch(error => {
+                console.error('thanhdx - ' + new Date().toISOString() + ' - Error loading data:', error);
+            });
+
+        // Không tự động đăng nhập khi refresh - yêu cầu đăng nhập lại
+        // if (!isMobileDevice() && localStorage.getItem('isLoggedIn') === 'true') {
+        //     showMainContent();
+        // }
+
+        // Function to normalize date format (remove slashes)
+        function normalizeDate(dateString) {
+            return dateString.replace(/\//g, '');
+        }
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const maDaiLy = document.getElementById('username').value.trim();
+            const ngayGiaNhap = document.getElementById('password').value.trim();
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Normalize the input date (remove slashes)
+            const normalizedInputDate = normalizeDate(ngayGiaNhap);
+            
+            // Find agent in data
+            const agent = agentData.find(agent => {
+                const agentCode = agent['MA DAI LY'];
+                const agentDate = normalizeDate(agent['NGAY GIA NHAP']);
+                
+                return agentCode === maDaiLy && agentDate === normalizedInputDate;
+            });
+            
+            if (agent) {
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('maDaiLy', maDaiLy);
+                localStorage.setItem('tenDaiLy', agent['TEN DAI LY']);
+                localStorage.setItem('chucDanh', agent['CHUC DANH']);
+                console.log('thanhdx - ' + new Date().toISOString() + ' - Login successful for agent:', agent['TEN DAI LY']);
+                showMainContent();
+            } else {
+                console.log('thanhdx - ' + new Date().toISOString() + ' - Login failed for:', maDaiLy, ngayGiaNhap);
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 3000);
+            }
+        });
+
+        function showMainContent() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('mainContent').classList.add('logged-in');
+            
+            // Display agent info in header
+            const tenDaiLy = localStorage.getItem('tenDaiLy');
+            const chucDanh = localStorage.getItem('chucDanh');
+            const maDaiLy = localStorage.getItem('maDaiLy');
+            
+            if (tenDaiLy && chucDanh && maDaiLy) {
+                document.getElementById('agentInfo').textContent = `${maDaiLy} - ${tenDaiLy} - ${chucDanh}`;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('maDaiLy');
+            localStorage.removeItem('tenDaiLy');
+            localStorage.removeItem('chucDanh');
+            document.getElementById('loginContainer').style.display = 'flex';
+            document.getElementById('mainContent').classList.remove('logged-in');
+            document.getElementById('loginForm').reset();
+        }
+
+        function copyPassword() {
+            const passwordField = document.getElementById('passwordField');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Select the text
+            passwordField.select();
+            passwordField.setSelectionRange(0, 99999); // For mobile devices
+            
+            // Copy to clipboard
+            try {
+                document.execCommand('copy');
+                successMessage.style.display = 'block';
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            } catch (err) {
+                // Fallback for modern browsers
+                navigator.clipboard.writeText(passwordField.value).then(() => {
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                });
+            }
+        }
+
+        // Add click animation to buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>
